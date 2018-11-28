@@ -237,7 +237,7 @@ el_2002_2006_pr_df_pt <- el_2002_2006_pr_df_pt[-1,]
 
 
 # RENDERIZANDO A TABELA
-pandoc.table(el_2002_2006_pr_df_pt, style = 'grid', , split.table = Inf, caption = "Feito em BSB com muito <3")
+pandoc.table(el_2002_2006_pr_df_pt, style = 'grid', , split.table = Inf, caption = "TABELA 1. Baquero (2007)")
 
 
 
