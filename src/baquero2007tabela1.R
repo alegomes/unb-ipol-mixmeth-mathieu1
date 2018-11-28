@@ -203,14 +203,43 @@ el_2006_uf_df_votos_turno1_pt$Ano <- 2006
 # Acrescenta coluna Cargo
 el_2006_uf_df_votos_turno1_pt$Cargo <- 'DEPUTADO FEDERAL (PT)'
 
+# Reorganizando...
+
+header = c('Votacao', 'Votos 2002', '% 2002', 'Votos 2006', '% 2006', 'Diferença')
+
+linha1 = c('Deputados Federais (PT)', 
+           format(el_2002_uf_df_votos_turno1_pt$Votos, nsmall=0, big.mark='.', decimal.mark=','), 
+           format(round(el_2002_uf_df_votos_turno1_pt$VotosPercentual*100, digits=2), decimal.mark=','),
+           format(el_2006_uf_df_votos_turno1_pt$Votos, nsmall=0, big.mark='.', decimal.mark=','),
+           format(round(el_2006_uf_df_votos_turno1_pt$VotosPercentual*100, digits=2), decimal.mark=','),
+           format(el_2006_uf_df_votos_turno1_pt$Votos-el_2002_uf_df_votos_turno1_pt$Votos, nsmall=0, big.mark='.'))
+
+linha2= c('Presidente (Lula)', 
+          format(el_2002_pr_votos_turno1_lula$Votos, nsmall=0, big.mark='.', decimal.mark=','), 
+          format(round(el_2002_pr_votos_turno1_lula$VotosPercentual*100, digits=2), decimal.mark=','),
+          format(el_2006_pr_votos_turno1_lula$Votos, nsmall=0, big.mark='.', decimal.mark = ','), 
+          format(round(el_2006_pr_votos_turno1_lula$VotosPercentual*100,digits=2), decimal.mark=','),
+          format(el_2006_pr_votos_turno1_lula$Votos-el_2002_pr_votos_turno1_lula$Votos, nsmall=0, big.mark='.'))
+
+#el_2002_2006_pr_df_pt <- data.frame(header, linha1, linha2)
+el_2002_2006_pr_df_pt <- NULL
+el_2002_2006_pr_df_pt <- rbind(el_2002_2006_pr_df_pt, header)
+el_2002_2006_pr_df_pt <- rbind(el_2002_2006_pr_df_pt, linha1)
+el_2002_2006_pr_df_pt <- rbind(el_2002_2006_pr_df_pt, linha2)
+
+# Transforma primeira coluna em header column
+rownames(el_2002_2006_pr_df_pt) <- el_2002_2006_pr_df_pt[,1]
+el_2002_2006_pr_df_pt <- el_2002_2006_pr_df_pt[,-1]
+
+# Transforma primeira linha em header row
+colnames(el_2002_2006_pr_df_pt) <- el_2002_2006_pr_df_pt[1,]
+el_2002_2006_pr_df_pt <- el_2002_2006_pr_df_pt[-1,]
+
+
 # RENDERIZANDO A TABELA
+pandoc.table(el_2002_2006_pr_df_pt, style = 'grid', , split.table = Inf, caption = "Feito em BSB com muito <3")
 
-el_2002_2006_pr_df_pt <- rbind(el_2002_pr_votos_turno1_lula[ c('Ano','Cargo','Votos','VotosPercentual')], 
-      el_2006_pr_votos_turno1_lula[ c('Ano','Cargo','Votos','VotosPercentual')], 
-      el_2002_uf_df_votos_turno1_pt[ c('Ano','Cargo','Votos','VotosPercentual')], 
-      el_2006_uf_df_votos_turno1_pt[ c('Ano','Cargo','Votos','VotosPercentual')])
 
-pandoc.table(el_2002_2006_pr_df_pt)
 
 
 
