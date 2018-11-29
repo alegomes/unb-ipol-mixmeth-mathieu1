@@ -33,13 +33,28 @@ opiniao_democracia <- cbind(
                                opiniao_democracia_2006[which(opiniao_democracia_2006$Var1 == resposta3_2006),][2],
                                opiniao_democracia_2006[which(opiniao_democracia_2006$Var1 == resposta77_2006),][2]))
                         
-                      
+opiniao_democracia <- rbind(opiniao_democracia, c(sum(opiniao_democracia[,1]), sum(opiniao_democracia[,2])))
 
-col_header = c('A democracia é sempre melhor que outra forma de governo',
-               'Em algumas situações a ditadura é melhor que a democracia',
-               'Tanto faz/nenhuma das duas é melhor',
+row.names(opiniao_democracia) <- c('A democracia e sempre melhor que outra forma de governo',
+               'Em algumas situacoes a ditadura e melhor que a democracia',
+               'Tanto faz/nenhuma das duas e melhor',
                'NS',
                'Total')
   
-eseb2002$p90perc <- eseb2002$p90 / sum(eseb2002$p90)
+# Cria colunas com valores percentuais
+opiniao_democracia$perc2002 <- (opiniao_democracia[,1] / sum(opiniao_democracia[1:4,1])) * 100
+opiniao_democracia$perc2006 <- (opiniao_democracia[,2] / sum(opiniao_democracia[1:4,2])) * 100
+
+# Remove colunas com valores absolutos
+opiniao_democracia[,1:2] <- NULL
+
+
+pandoc.table(opiniao_democracia, 
+             style = 'grid', 
+             round = c(1:2), 
+             digits = 3,
+             split.table = Inf, 
+             caption = "TABELA 2. Baquero (2007)", 
+             plain.ascii = TRUE, 
+             justify = c('center', 'right', 'right'))
 
