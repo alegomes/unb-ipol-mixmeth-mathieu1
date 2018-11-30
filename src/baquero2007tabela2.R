@@ -1,3 +1,12 @@
+############################################################
+# Métodos Mistos - IPol/UnB - 2º/2018
+# Prof. Dr. Mathieu Turgeon
+# Reproducao da TABELA 2 do artigo Baquero (2007)
+# Alunos: Alexandre Gomes e Beatriz Franco
+############################################################
+
+library(pander)
+
 eseb2002_path = "/Users/alegomes/GDrive/2018/unb/ipol/disc métodos mistos/provas/1. Mathieu/data/eseb2002/01838.sav"
 eseb2006_path = "/Users/alegomes/GDrive/2018/unb/ipol/disc métodos mistos/provas/1. Mathieu/data/eseb2006/02489.sav"
 
