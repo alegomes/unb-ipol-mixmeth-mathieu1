@@ -192,11 +192,10 @@ plot_ly(procedimentos_poliarquicos,
           name = row.names(procedimentos_poliarquicos[3,]), 
           mode = 'lines+markers') %>%
       layout(title = "Grafico 1 - Avaliacao dos procedimentos poliarquicos\nDimensao negativa (%)",
-         #width = 1000, height = 500,
          xaxis = xaxis, yaxis = yaxis, margin = margin,
-         autosize = TRUE,
+         autosize = FALSE,
          showlegend = TRUE,
-         legend = list(x=1.1, y=0.9),
+         legend = list(x=0.0, y=-0.5),
          annotations = eleicoes_1) %>%
          layout(annotations = eleicoes_2) %>%
          layout(annotations = presidente_1) %>%
