@@ -69,6 +69,113 @@ procedimentos_poliarquicos <- data.frame(rbind(c('2002'=sum(eleicoes[1:2,1]),'20
                                            'O voto influencia pouco no que acontece no Brasil'))
 
 
+# Grafico
+
+xaxis <- list(title = "",
+              showline = TRUE,
+              showgrid = FALSE,
+              showticklabels = TRUE,
+              linecolor = 'rgb(204, 204, 204)',
+              linewidth = 2,
+              autotick = FALSE,
+              ticks = 'outside',
+              tickcolor = 'rgb(204, 204, 204)',
+              tickwidth = 2,
+              ticklen = 5,
+              tickfont = list(family = 'Arial',
+                              size = 12,
+                              color = 'rgb(82, 82, 82)'))
+
+yaxis <- list(title = "",
+              showgrid = TRUE,
+              zeroline = FALSE,
+              showline = FALSE,
+              showticklabels = FALSE)
+
+margin <- list(autoexpand = TRUE,
+               l = 100,
+               r = 100,
+               b = 100,
+               t = 100,
+               pad = 4)
+
+eleicoes_1 <- list(
+  xref = 'paper',
+  yref = 'y',
+  x = 0.05,
+  y = procedimentos_poliarquicos[1,1],
+  xanchor = 'right',
+  yanchor = 'middle',
+  text = ~paste(round(procedimentos_poliarquicos[1,1]*100), '%'),
+  font = list(family = 'Arial',
+              size = 16,
+              color = 'rgba(67,67,67,1)'),
+              showarrow = FALSE)
+
+eleicoes_2 <- list(
+  xref = 'paper',
+  yref = 'y',
+  x = 1.05,
+  y = procedimentos_poliarquicos[1,2],
+  xanchor = 'right',
+  yanchor = 'middle',
+  text = ~paste(round(procedimentos_poliarquicos[1,2]*100), '%'),
+  font = list(family = 'Arial',
+              size = 16,
+              color = 'rgba(67,67,67,1)'),
+  showarrow = FALSE)
+
+presidente_1 <- list(
+  xref = 'paper',
+  yref = 'y',
+  x = 0.05,
+  y = procedimentos_poliarquicos[2,1],
+  xanchor = 'right',
+  yanchor = 'middle',
+  text = ~paste(round(procedimentos_poliarquicos[2,1]*100), '%'),
+  font = list(family = 'Arial',
+              size = 16,
+              color = 'rgba(67,67,67,1)'),
+  showarrow = FALSE)
+
+presidente_2 <- list(
+  xref = 'paper',
+  yref = 'y',
+  x = 1.05,
+  y = procedimentos_poliarquicos[2,2],
+  xanchor = 'right',
+  yanchor = 'middle',
+  text = ~paste(round(procedimentos_poliarquicos[2,2]*100), '%'),
+  font = list(family = 'Arial',
+              size = 16,
+              color = 'rgba(67,67,67,1)'),
+  showarrow = FALSE)
+
+voto_1 <- list(
+  xref = 'paper',
+  yref = 'y',
+  x = 0.05,
+  y = procedimentos_poliarquicos[3,1],
+  xanchor = 'right',
+  yanchor = 'middle',
+  text = ~paste(round(procedimentos_poliarquicos[3,1]*100), '%'),
+  font = list(family = 'Arial',
+              size = 16,
+              color = 'rgba(67,67,67,1)'),
+  showarrow = FALSE)
+
+voto_2 <- list(
+  xref = 'paper',
+  yref = 'y',
+  x = 1.05,
+  y = procedimentos_poliarquicos[3,2],
+  xanchor = 'right',
+  yanchor = 'middle',
+  text = ~paste(round(procedimentos_poliarquicos[3,2]*100), '%'),
+  font = list(family = 'Arial',
+              size = 16,
+              color = 'rgba(67,67,67,1)'),
+  showarrow = FALSE)
 
 plot_ly(procedimentos_poliarquicos, 
           x = colnames(procedimentos_poliarquicos), 
@@ -83,7 +190,19 @@ plot_ly(procedimentos_poliarquicos,
         add_trace(
           y = as.numeric(procedimentos_poliarquicos[3,]), 
           name = row.names(procedimentos_poliarquicos[3,]), 
-          mode = 'lines_markers') 
-
+          mode = 'lines+markers') %>%
+      layout(title = "Grafico 1 - Avaliacao dos procedimentos poliarquicos\nDimensao negativa (%)",
+         #width = 1000, height = 500,
+         xaxis = xaxis, yaxis = yaxis, margin = margin,
+         autosize = TRUE,
+         showlegend = TRUE,
+         legend = list(x=1.1, y=0.9),
+         annotations = eleicoes_1) %>%
+         layout(annotations = eleicoes_2) %>%
+         layout(annotations = presidente_1) %>%
+         layout(annotations = presidente_2) %>%
+         layout(annotations = voto_1) %>%
+         layout(annotations = voto_2)
+         
 
 
