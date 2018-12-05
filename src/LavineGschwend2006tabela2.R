@@ -201,8 +201,8 @@ x3_character_assessment <- ((num_of_republican_positive_comments + num_of_democr
 # the respondent provided a valid opinion. Pg 150
 
 # sex (female 􏰃 1; male 􏰃 0),
-anes1992$gender[as.character(anes1992$V923089) == 'Female'] <- 1
-anes1992$gender[as.character(anes1992$V923089) == 'Male'] <- 0
+anes1992$gender[as.character(anes1992$V924201) == 'FEMALE'] <- 1
+anes1992$gender[as.character(anes1992$V924201) == 'MALE'] <- 0
 x4_female <- anes1992$gender[1:100]
 
 #########################################################################
@@ -210,8 +210,8 @@ x4_female <- anes1992$gender[1:100]
 #########################################################################
 
 # race (white 􏰃 1; otherwise 􏰃 0), and
-anes1992$race[anes1992$V923085 == 'White'] <- 1
-anes1992$race[anes1992$V923085 != 'White'] <- 0
+anes1992$race[anes1992$V924202 == 'WHITE'] <- 1
+anes1992$race[anes1992$V924202 != 'WHITE'] <- 0
 x5_white <- anes1992$race[1:100]
 
 #########################################################################
@@ -279,8 +279,8 @@ model <- lm(y_candidate_evaluation~ x1_issue_proximity+
                                     x10_ideological_thinking_issue_proximity+
                                     x11_ideological_thinking_party_identification+
                                     x12_political_knowledge_character_assessment+
-                                    x13_political_knowledge_party_identification+
-                                    x14_political_knowledge_issue_proximity+
+                                    x13_political_knowledge_issue_proximity+
+                                    x14_political_knowledge_party_identification+
                                     x15_number_of_valid_policy_responses)
 
 summary(model)
