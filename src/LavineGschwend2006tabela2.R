@@ -191,7 +191,7 @@ x3_character_assessment <- ((num_of_republican_positive_comments + num_of_democr
                            (num_of_democratic_positive_comments + num_of_republican_negative_comments))[1:100]
 
 #########################################################################
-# 
+# FEMALE
 #########################################################################
 
 # Also included in the OLS regressions are 
@@ -206,7 +206,7 @@ anes1992$gender[as.character(anes1992$V923089) == 'Male'] <- 0
 x4_female <- anes1992$gender[1:100]
 
 #########################################################################
-# 
+# WHITE
 #########################################################################
 
 # race (white 􏰃 1; otherwise 􏰃 0), and
@@ -215,56 +215,57 @@ anes1992$race[anes1992$V923085 != 'White'] <- 0
 x5_white <- anes1992$race[1:100]
 
 #########################################################################
-# 
-#########################################################################
-
-# the number of policy issues for which the respondent provided a valid opinion
-# TODO Qual eh a variavel?  
-
-#########################################################################
-# 
+# EDUCATION
 #########################################################################
 
 # TODO Como ele codificou?!
 x6_education <- anes1992$V923090[1:100]
 
 #########################################################################
-# 
+# IDEOLOGICAL THINKING
 #########################################################################
-
 x7_ideological_thinking <- runif(100)
+
 #########################################################################
-# 
+# POLITICAL KNOWLEDGE
 #########################################################################
 x8_political_knowledge <- runif(100)
+
 #########################################################################
-# 
+# IDEOLOGICAL THINKING x CHARACTER ASSESMENT
 #########################################################################
 x9_ideological_thinking_character_assessment <- rnorm(100, mean=50, sd=10)
+
 #########################################################################
-# 
+# IDEOLOGICAL THINKING x ISSUE PROXIMITY
 #########################################################################
 x10_ideological_thinking_issue_proximity <- rnorm(100, mean=45, sd=10)
+
 #########################################################################
-# 
+# IDEOLOGICAL THINKING x PARTY IDENTIFICATION
 #########################################################################
 x11_ideological_thinking_party_identification <- rnorm(100, mean=40, sd=10)
+
 #########################################################################
-# 
+# POLITICAL KNOWLEDGE x CHARACTER ASSESMEN
 #########################################################################
 x12_political_knowledge_character_assessment <- rnorm(100, mean=35, sd=10)
+
 #########################################################################
-# 
+# POLITICAL KNOWLEDGE x ISSUE PROXIMITY
 #########################################################################
-x14_political_knowledge_issue_proximity <- rnorm(100, mean=30, sd=10)
+x13_political_knowledge_issue_proximity <- rnorm(100, mean=30, sd=10)
+
 #########################################################################
-# 
+# POLITICAL KNOWLEDGE x PARTY IDENTIFICATION
 #########################################################################
-x13_political_knowledge_party_identification <- rnorm(100, mean=25, sd=10)
+x14_political_knowledge_party_identification <- rnorm(100, mean=25, sd=10)
+
 #########################################################################
-# 
+# NUMBER OF VALID POLICY RESPONSES
 #########################################################################
 x15_number_of_valid_policy_responses <- rnorm(100, mean=20, sd=10)
+
 
 model <- lm(y_candidate_evaluation~ x1_issue_proximity+
                                     x2_party_identification+
