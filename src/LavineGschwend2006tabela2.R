@@ -7,33 +7,19 @@
 
 library(pander)
 library(readr)
-
-# filepath <- "/Users/alegomes/GDrive/2018/unb/ipol/disc\ métodos\ mistos/provas/1.\ Mathieu/data/1992\ Time\ Series\ Study/anes_timeseries_1992_rawdata.txt"
-
-# Abre a base
-# anes1992 <- read_fwf(file=filepath,   
-#                      skip=4,
-#                      fwf_widths(c(2, 7, 4, 4)))
-# 
 library(foreign)
-# filepath_spss <- '/Users/alegomes/GDrive/2018/unb/ipol/disc\ métodos\ mistos/provas/1.\ Mathieu/data/1992\ Time\ Series\ Study/anes_timeseries_1992_sps/anes_timeseries_1992_varlabels.sps'
-# filepath_spss <- '/Users/alegomes/GDrive/2018/unb/ipol/disc\ métodos\ mistos/provas/1.\ Mathieu/data/1992\ Time\ Series\ Study/anes_timeseries_1992_sps/anes_timeseries_1992_run.sps'
-# filepath_sas <- '/Users/alegomes/GDrive/2018/unb/ipol/disc\ métodos\ mistos/provas/1.\ Mathieu/data/1992\ Time\ Series\ Study/anes_timeseries_1992_sas/anes_timeseries_1992_varlabels.sas'
-# filepath_stata <- '/Users/alegomes/GDrive/2018/unb/ipol/disc\ métodos\ mistos/provas/1.\ Mathieu/data/1992\ Time\ Series\ Study/anes_timeseries_1992_stata/anes_timeseries_1992_varlabels.do'
-filepath_por <- '/Users/alegomes/GDrive/2018/unb/ipol/disc\ métodos\ mistos/provas/1.\ Mathieu/data/anes1992por/anes1992.POR'
-# filepath_por <- ''
-# 
 
-anes1992 <- read.spss(filepath_por, to.data.frame=TRUE)
+filepath <- '/Users/alegomes/GDrive/2018/unb/ipol/disc\ métodos\ mistos/provas/1.\ Mathieu/data/anes1992por/anes1992.POR'
+anes1992 <- read.spss(filepath, to.data.frame=TRUE)
 
 # Estimates of the effects on summary candidate evaluation 
-# (the thermometer score for the Republican candidate minus 
-# the thermometer score for the Democratic candidate, 
+# (the thermometer score for the Republican candidate (Bush) 
+# minus the thermometer score for the Democratic candidate (Clinton), 
 # recoded to a 0–1 scale) Pg 150
-feeling_thermometer_democratic_party <- anes1992$V923317
-feeling_thermometer_republican_party <- anes1992$V923318
-y_summary_candidate_evaluation <- (as.numeric(feeling_thermometer_republican_party)/100 - 
-                                   as.numeric(feeling_thermometer_democratic_party)/100)[1:100]
+feeling_thermometer_republican_candidate <- anes1992$V923305
+feeling_thermometer_democratic_candidate <- anes1992$V923306
+y_candidate_evaluation <- (as.numeric(feeling_thermometer_republican_candidate)/100 - 
+                           as.numeric(feeling_thermometer_democratic_candidate)/100)[1:100]
 
 # A single issue proximity score was constructed for each respondent 
 # in each election year by averaging all issues for which the respondent
@@ -65,7 +51,7 @@ y_summary_candidate_evaluation <- (as.numeric(feeling_thermometer_republican_par
 # Issue proximity was coded in all election years such that higher scores 
 # represented greater voter issue similarity with the Republican candidate.
 #
-# TODO Incluir posteriormente
+# TODO Incluir esta critica na selecao das observacoes
 # Respondents who failed to answer at least half of the issue items 
 # in a given election year were excluded from all analyses. 
 
@@ -86,10 +72,10 @@ abortion_republican <- factor(as.numeric(anes1992$V923733))
 abortion_democratic <- factor(as.numeric(anes1992$V923734))
 
 # Consideramos como valid todas as respostas ≠ N/A
-voter_valid_policy_responses <- data.frame(gov_spending=gov_spending_voter[!is.na(gov_spending_voter)],
-                                           defense_spending=defense_spending_voter[!is.na(gov_spending_voter)],
-                                           job_assurance=job_assurance_voter[!is.na(gov_spending_voter)],
-                                           abortion=abortion_voter[!is.na(gov_spending_voter)])
+voter_valid_policy_responses <- data.frame(gov_spending=gov_spending_voter,
+                                           defense_spending=defense_spending_voter,
+                                           job_assurance=job_assurance_voter,
+                                           abortion=abortion_voter)
 
 # Matriz com o posicionamento do respondente para cada uma das 4 policy issues 
 voter_positions <- data.frame(gov_spending=as.numeric(levels(gov_spending_voter)[as.integer(gov_spending_voter)]), 
@@ -122,7 +108,17 @@ for (j in 1:length(anes1992)) { # For each responder
 
 x1_issue_proximity <- issue_proximity[1:100]
 
-x2_party_identification <- runif(100)
+# [?] Nao esta claro de onde veio a informacao de 'party identification'
+#
+# Vamos considerar que a identificacao partidaria do sujeito tem a ver 
+# com a simpatia que ele tem com cada partido. Aquele que ganhar maior
+# nota, vence.
+#
+# TODO Resolver o caso de ambos os termometros serem iguais
+#
+feeling_thermometer_democratic_party <- anes1992$V923317
+feeling_thermometer_republican_party <- anes1992$V923318
+x2_party_identification <- ifelse(as.numeric(feeling_thermometer_republican_party) < as.numeric(feeling_thermometer_democratic_party), "D", "R")[1:100]
 
 x3_character_assessment <- runif(100)
 
@@ -159,21 +155,21 @@ x14_political_knowledge_issue_proximity <- rnorm(100, mean=30, sd=10)
 x13_political_knowledge_party_identification <- rnorm(100, mean=25, sd=10)
 x15_number_of_valid_policy_responses <- rnorm(100, mean=20, sd=10)
 
-model <- lm(y_summary_candidate_evaluation~ x1_issue_proximity+
-                                            x2_party_identification+
-                                            x3_character_assessment+
-                                            x4_female+
-                                            x5_white+
-                                            x6_education+
-                                            x7_ideological_thinking+
-                                            x8_political_knowledge+
-                                            x9_ideological_thinking_character_assessment+
-                                            x10_ideological_thinking_issue_proximity+
-                                            x11_ideological_thinking_party_identification+
-                                            x12_political_knowledge_character_assessment+
-                                            x13_political_knowledge_party_identification+
-                                            x14_political_knowledge_issue_proximity+
-                                            x15_number_of_valid_policy_responses)
+model <- lm(y_candidate_evaluation~ x1_issue_proximity+
+                                    x2_party_identification+
+                                    x3_character_assessment+
+                                    x4_female+
+                                    x5_white+
+                                    x6_education+
+                                    x7_ideological_thinking+
+                                    x8_political_knowledge+
+                                    x9_ideological_thinking_character_assessment+
+                                    x10_ideological_thinking_issue_proximity+
+                                    x11_ideological_thinking_party_identification+
+                                    x12_political_knowledge_character_assessment+
+                                    x13_political_knowledge_party_identification+
+                                    x14_political_knowledge_issue_proximity+
+                                    x15_number_of_valid_policy_responses)
 
 summary(model)
 
@@ -185,22 +181,3 @@ summary(model)
 
 #rnorm(10, mean=50, sd=10)
 
-# statadata <- read.dta(filepath_stata)
-# anes1992sas <- read.xport(filepath_sas)
-# 
-# library(sas7bdat)
-# anes1992sas <- read.sas7bdat(filepath_sas)
-# 
-# library ( haven )
-# anes1992sas <- read_sas(filepath_sas)
-
-# install.packages('memisc')
-# library(memisc)
-# anes1992 <- spss.portable.file(filepath_por)
-# print(anes1992)
-
-# TESTES
-vote92 
-
-# Xiiiii
-# https://stackoverflow.com/questions/52729556/anes-catalog-inaccessible-via-lodown
