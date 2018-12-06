@@ -352,8 +352,8 @@ political_knwoledge_william_rehnquist <- unlist(recode(lapply(anes1992$V925917, 
 political_knwoledge_boris_yeltsin <- unlist(recode(lapply(anes1992$V925918, as.character), "'Correctly identifies Yeltsin'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
 # Does R know job/office Tom Foley holds?	
 political_knwoledge_tom_foley <- unlist(recode(lapply(anes1992$V925919, as.character), "'Correctly identifies Foley'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
-# Who ha
-s the final responsibility to decide the constitutionality of law?	
+
+# Who has the final responsibility to decide the constitutionality of law?	
 political_knwoledge_constitutionality <- unlist(recode(lapply(anes1992$V925920, as.character), "'PRESIDENT'=0; 'CONGRESS'=0; 'SUPREME COURT'=1"),use.names=FALSE)
 # Who nominates judges to the federal courts?	
 political_knwoledge_federal_court <- unlist(recode(lapply(anes1992$V925921, as.character), "'PRESIDENT'=1; 'CONGRESS'=0; 'SUPREME COURT'=0"),use.names=FALSE)
@@ -381,8 +381,10 @@ political_knowledge <- data.frame(dan_quayle=political_knwoledge_dan_quayle,
                                   ushouse_most_member=political_knwoledge_ushouse_most_member,
                                   senate_most_member=political_knwoledge_senate_most_member)
 
-x8_polit# [?] Tem que ser na escala 0-1?
-ical_knowledge <- runif(10apply(political_knowledge, 1, function(x){ sum(as.numeric(x))}test the switching mechanism hypothesis, six interaction terms were 
+# [?] Tem que ser na escala 0-1?
+x8_political_knowledge <- apply(political_knowledge, 1, function(x){ sum(as.numeric(x))})
+
+# To test the switching mechanism hypothesis, six interaction terms were 
 # constructed. In the first set of terms, 
 #   ideological thinking scores 
 # were multiplied by 
