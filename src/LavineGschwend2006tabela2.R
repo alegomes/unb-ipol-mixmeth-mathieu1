@@ -345,41 +345,41 @@ x7_ideological_thinking <- rnorm(100, mean=50, sd=10)
 # All political knowledge items were scored 1 if correct and 0 if incorrect (or ‘don’t know’)
 
 # Does R know job/office Dan Quayle holds?	
-political_knwoledge_dan_quayle <- unlist(recode(lapply(anes1992$V925916, as.character), "'Correctly identifies Quayle'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
+political_knowledge_dan_quayle <- unlist(recode(lapply(anes1992$V925916, as.character), "'Correctly identifies Quayle'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
 # Does R know job/office William Rehnquist holds?	
-political_knwoledge_william_rehnquist <- unlist(recode(lapply(anes1992$V925917, as.character), "'Correctly identifies Rehnquist'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
+political_knowledge_william_rehnquist <- unlist(recode(lapply(anes1992$V925917, as.character), "'Correctly identifies Rehnquist'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
 # Does R know job/office Boris Yeltsin holds?	
-political_knwoledge_boris_yeltsin <- unlist(recode(lapply(anes1992$V925918, as.character), "'Correctly identifies Yeltsin'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
+political_knowledge_boris_yeltsin <- unlist(recode(lapply(anes1992$V925918, as.character), "'Correctly identifies Yeltsin'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
 # Does R know job/office Tom Foley holds?	
-political_knwoledge_tom_foley <- unlist(recode(lapply(anes1992$V925919, as.character), "'Correctly identifies Foley'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
+political_knowledge_tom_foley <- unlist(recode(lapply(anes1992$V925919, as.character), "'Correctly identifies Foley'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
 
 # Who has the final responsibility to decide the constitutionality of law?	
-political_knwoledge_constitutionality <- unlist(recode(lapply(anes1992$V925920, as.character), "'PRESIDENT'=0; 'CONGRESS'=0; 'SUPREME COURT'=1"),use.names=FALSE)
+political_knowledge_constitutionality <- unlist(recode(lapply(anes1992$V925920, as.character), "'PRESIDENT'=0; 'CONGRESS'=0; 'SUPREME COURT'=1"),use.names=FALSE)
 # Who nominates judges to the federal courts?	
-political_knwoledge_federal_court <- unlist(recode(lapply(anes1992$V925921, as.character), "'PRESIDENT'=1; 'CONGRESS'=0; 'SUPREME COURT'=0"),use.names=FALSE)
+political_knowledge_federal_court <- unlist(recode(lapply(anes1992$V925921, as.character), "'PRESIDENT'=1; 'CONGRESS'=0; 'SUPREME COURT'=0"),use.names=FALSE)
 # Does R know which party had most members in the US House before the election?	
-political_knwoledge_ushouse_most_member <- unlist(recode(lapply(anes1992$V925951, as.character), "'REPUBLICANS'=0; 'DEMOCRATS'=1;"),use.names=FALSE)
+political_knowledge_ushouse_most_member <- unlist(recode(lapply(anes1992$V925951, as.character), "'REPUBLICANS'=0; 'DEMOCRATS'=1;"),use.names=FALSE)
 # Does R know which party had most members in the Senate before the election?	
-political_knwoledge_senate_most_member <- unlist(recode(lapply(anes1992$V925952, as.character), "'REPUBLICANS'=0; 'DEMOCRATS'=1;"),use.names=FALSE)
+political_knowledge_senate_most_member <- unlist(recode(lapply(anes1992$V925952, as.character), "'REPUBLICANS'=0; 'DEMOCRATS'=1;"),use.names=FALSE)
 
-political_knwoledge_dan_quayle[is.na(political_knwoledge_dan_quayle)] <- 0
-political_knwoledge_william_rehnquist[is.na(political_knwoledge_william_rehnquist)] <- 0
-political_knwoledge_boris_yeltsin[is.na(political_knwoledge_boris_yeltsin)] <- 0
-political_knwoledge_tom_foley[is.na(political_knwoledge_tom_foley)] <- 0
+political_knowledge_dan_quayle[is.na(political_knowledge_dan_quayle)] <- 0
+political_knowledge_william_rehnquist[is.na(political_knowledge_william_rehnquist)] <- 0
+political_knowledge_boris_yeltsin[is.na(political_knowledge_boris_yeltsin)] <- 0
+political_knowledge_tom_foley[is.na(political_knowledge_tom_foley)] <- 0
 
-political_knwoledge_constitutionality[is.na(political_knwoledge_constitutionality)] <- 0
-political_knwoledge_federal_court[is.na(political_knwoledge_federal_court)] <- 0
-political_knwoledge_ushouse_most_member[is.na(political_knwoledge_ushouse_most_member)] <- 0
-political_knwoledge_senate_most_member[is.na(political_knwoledge_senate_most_member)] <- 0
+political_knowledge_constitutionality[is.na(political_knowledge_constitutionality)] <- 0
+political_knowledge_federal_court[is.na(political_knowledge_federal_court)] <- 0
+political_knowledge_ushouse_most_member[is.na(political_knowledge_ushouse_most_member)] <- 0
+political_knowledge_senate_most_member[is.na(political_knowledge_senate_most_member)] <- 0
 
-political_knowledge <- data.frame(dan_quayle=political_knwoledge_dan_quayle,
-                                  william_rehnquist=political_knwoledge_william_rehnquist,
-                                  boris_yeltsin=political_knwoledge_boris_yeltsin,
-                                  tom_foley=political_knwoledge_tom_foley,
-                                  constitutionality=political_knwoledge_constitutionality,
-                                  federal_court=political_knwoledge_federal_court,
-                                  ushouse_most_member=political_knwoledge_ushouse_most_member,
-                                  senate_most_member=political_knwoledge_senate_most_member)
+political_knowledge <- data.frame(dan_quayle=political_knowledge_dan_quayle,
+                                  william_rehnquist=political_knowledge_william_rehnquist,
+                                  boris_yeltsin=political_knowledge_boris_yeltsin,
+                                  tom_foley=political_knowledge_tom_foley,
+                                  constitutionality=political_knowledge_constitutionality,
+                                  federal_court=political_knowledge_federal_court,
+                                  ushouse_most_member=political_knowledge_ushouse_most_member,
+                                  senate_most_member=political_knowledge_senate_most_member)
 
 # [?] Tem que ser na escala 0-1?
 x8_political_knowledge <- apply(political_knowledge, 1, function(x){ sum(as.numeric(x))})
