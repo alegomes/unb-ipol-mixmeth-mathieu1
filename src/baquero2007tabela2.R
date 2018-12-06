@@ -33,31 +33,46 @@ tabela2_header = c('A democracia é sempre melhor que outra forma de governo',
                    'Total')
 
 opiniao_democracia <- cbind(
-                        rbind( opiniao_democracia_2002[which(opiniao_democracia_2002$Var1 == resposta1_2002),][2],
-                               opiniao_democracia_2002[which(opiniao_democracia_2002$Var1 == resposta2_2002),][2],
-                               opiniao_democracia_2002[which(opiniao_democracia_2002$Var1 == resposta3_2002),][2],
-                               opiniao_democracia_2002[is.na(opiniao_democracia_2002$Var1),][2]),
-                        rbind( opiniao_democracia_2006[which(opiniao_democracia_2006$Var1 == resposta1_2006),][2],
-                               opiniao_democracia_2006[which(opiniao_democracia_2006$Var1 == resposta2_2006),][2],
-                               opiniao_democracia_2006[which(opiniao_democracia_2006$Var1 == resposta3_2006),][2],
-                               opiniao_democracia_2006[which(opiniao_democracia_2006$Var1 == resposta77_2006),][2]))
+              rbind( 
+                opiniao_democracia_2002[which(
+                  opiniao_democracia_2002$Var1 == resposta1_2002),][2],
+                opiniao_democracia_2002[which(
+                  opiniao_democracia_2002$Var1 == resposta2_2002),][2],
+                opiniao_democracia_2002[which(
+                  opiniao_democracia_2002$Var1 == resposta3_2002),][2],
+                opiniao_democracia_2002[
+                  is.na(opiniao_democracia_2002$Var1),][2]),
+              rbind( 
+                opiniao_democracia_2006[which(
+                  opiniao_democracia_2006$Var1 == resposta1_2006),][2],
+                opiniao_democracia_2006[which(
+                  opiniao_democracia_2006$Var1 == resposta2_2006),][2],
+                opiniao_democracia_2006[which(
+                  opiniao_democracia_2006$Var1 == resposta3_2006),][2],
+                opiniao_democracia_2006[which(
+                  opiniao_democracia_2006$Var1 == resposta77_2006),][2]))
                         
-opiniao_democracia <- rbind(opiniao_democracia, c(sum(opiniao_democracia[,1]), sum(opiniao_democracia[,2])))
+opiniao_democracia <- rbind(opiniao_democracia, 
+                            c(sum(opiniao_democracia[,1]), 
+                            sum(opiniao_democracia[,2])))
 
-row.names(opiniao_democracia) <- c('A democracia e sempre melhor que outra forma de governo',
+row.names(opiniao_democracia) <- 
+             c('A democracia e sempre melhor que outra forma de governo',
                'Em algumas situacoes a ditadura e melhor que a democracia',
                'Tanto faz/nenhuma das duas e melhor',
                'NS',
                'Total')
   
 # Cria colunas com valores percentuais
-opiniao_democracia$perc2002 <- (opiniao_democracia[,1] / sum(opiniao_democracia[1:4,1])) * 100
-opiniao_democracia$perc2006 <- (opiniao_democracia[,2] / sum(opiniao_democracia[1:4,2])) * 100
+opiniao_democracia$perc2002 <- 
+  (opiniao_democracia[,1] / sum(opiniao_democracia[1:4,1])) * 100
+opiniao_democracia$perc2006 <- 
+  (opiniao_democracia[,2] / sum(opiniao_democracia[1:4,2])) * 100
 
 # Remove colunas com valores absolutos
 opiniao_democracia[,1:2] <- NULL
 
-
+# Rnderiza tabela
 pandoc.table(opiniao_democracia, 
              style = 'grid', 
              round = c(1:2), 

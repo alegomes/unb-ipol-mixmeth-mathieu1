@@ -20,15 +20,22 @@ eseb2002q31 <- eseb2002$p31
 eseb2002q33 <- eseb2002$p33
 
 # Questoes 7 e 9 da ESEB 2006, considerando apenas as respostas Sim e Nao.
-eseb2006q7 <- eseb2006$eseb7[eseb2006$eseb7 == levels(eseb2006$eseb7)[1] | eseb2006$eseb7 == levels(eseb2006$eseb7)[2]]
-eseb2006q9 <- eseb2006$eseb9[eseb2006$eseb9 == levels(eseb2006$eseb9)[1] | eseb2006$eseb9 == levels(eseb2006$eseb9)[2]]
+eseb2006q7 <- eseb2006$eseb7[eseb2006$eseb7 == levels(eseb2006$eseb7)[1] | 
+                            eseb2006$eseb7 == levels(eseb2006$eseb7)[2]]
+
+eseb2006q9 <- eseb2006$eseb9[eseb2006$eseb9 == levels(eseb2006$eseb9)[1] | 
+                            eseb2006$eseb9 == levels(eseb2006$eseb9)[2]]
 
 # Consolidacao dos valores absolutos
 representacao <- rbind(
-                    c(tapply(eseb2002q31, eseb2002q31, length)[c(levels(eseb2002q31)[2], levels(eseb2002q31)[1])], 
-                      tapply(eseb2006q7, eseb2006q7, length)[c(levels(eseb2006q7)[2], levels(eseb2006q7)[1])]),
-                    c(tapply(eseb2002q33, eseb2002q33, length)[c(levels(eseb2002q31)[2], levels(eseb2002q31)[1])], 
-                      tapply(eseb2006q9, eseb2006q9, length)[c(levels(eseb2006q9)[2], levels(eseb2006q9)[1])]))
+                    c(tapply(eseb2002q31, eseb2002q31, length)[
+                        c(levels(eseb2002q31)[2], levels(eseb2002q31)[1])], 
+                      tapply(eseb2006q7, eseb2006q7, length)[
+                        c(levels(eseb2006q7)[2], levels(eseb2006q7)[1])]),
+                    c(tapply(eseb2002q33, eseb2002q33, length)[
+                        c(levels(eseb2002q31)[2], levels(eseb2002q31)[1])], 
+                      tapply(eseb2006q9, eseb2006q9, length)[
+                        c(levels(eseb2006q9)[2], levels(eseb2006q9)[1])]))
 
 n2002q31 <- sum(representacao[1,1:2])
 n2002q33 <- sum(representacao[2,1:2])
@@ -56,7 +63,8 @@ pandoc.table(representacao,
              round = c(1:4), 
              digits = 3,
              split.table = Inf, 
-             caption = sprintf("TABELA 4. Baquero (2007)\n\tn2002p31=%d, n2002p33=%d, n2006p7=%d, n2006p9=%d", n2002q31, n2002q33, n2006q7, n2006q9), 
+             caption = sprintf("TABELA 4. Baquero (2007)\n\tn2002p31=%d, n2002p33=%d, n2006p7=%d, n2006p9=%d", 
+                               n2002q31, n2002q33, n2006q7, n2006q9), 
              plain.ascii = TRUE, 
              justify = 'center')
 

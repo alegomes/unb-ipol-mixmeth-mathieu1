@@ -21,7 +21,8 @@ satisfacao_democratica_2006 <- as.data.frame(table(eseb2006$eseb22, exclude=NULL
 
 # Renomeia e reordena a linhas dos dados de 2006 para coincidir com a codificacao usada em 2002
 row.names(satisfacao_democratica_2006) <- c(5,4,3,2,1,77,99)
-satisfacao_democratica_2006 <- satisfacao_democratica_2006[ order(as.numeric(row.names(satisfacao_democratica_2006))),]
+satisfacao_democratica_2006 <- 
+  satisfacao_democratica_2006[ order(as.numeric(row.names(satisfacao_democratica_2006))),]
 
 # Recodifica os missing values de 2002, ja que nao tao estao especificados como em 2006
 row.names(satisfacao_democratica_2002) <- c(1:6,999)
@@ -30,7 +31,8 @@ colnames(satisfacao_democratica_2002) <- c('Var2','v2002')
 colnames(satisfacao_democratica_2006) <- c('Var2','v2006')
 
 # Junta dados de 2002 com os de 2006 numa unico dataframe
-satisfacao_democratica <- merge(satisfacao_democratica_2002, satisfacao_democratica_2006, by=0, all=TRUE)
+satisfacao_democratica <- merge(satisfacao_democratica_2002, 
+                                satisfacao_democratica_2006, by=0, all=TRUE)
 
 rownames(satisfacao_democratica) <- c('Nada satisfeito', 
                                       'Pouco Satisfeito',
@@ -43,8 +45,13 @@ rownames(satisfacao_democratica) <- c('Nada satisfeito',
                                       'NA')
 
 # Calculo dos percentuais
-satisfacao_democratica$p2002 <- (satisfacao_democratica$v2002 / sum(satisfacao_democratica$v2002, na.rm=TRUE)) * 100
-satisfacao_democratica$p2006 <- (satisfacao_democratica$v2006 / sum(satisfacao_democratica$v2006, na.rm=TRUE)) * 100
+satisfacao_democratica$p2002 <- (satisfacao_democratica$v2002 / 
+                                 sum(satisfacao_democratica$v2002, 
+                                 na.rm=TRUE)) * 100
+
+satisfacao_democratica$p2006 <- (satisfacao_democratica$v2006 / 
+                                sum(satisfacao_democratica$v2006, 
+                                na.rm=TRUE)) * 100
 
 # Remove colunas desnecessarias
 satisfacao_democratica[,c(1:5)] <- NULL
@@ -53,10 +60,6 @@ satisfacao_democratica[,c(1:5)] <- NULL
 satisfacao_democratica <- rbind(satisfacao_democratica, 
                                 Total = c(sum(satisfacao_democratica[,1], na.rm=TRUE),
                                   sum(satisfacao_democratica[,2], na.rm=TRUE)))
-
-#satisfacao_democratica <- rbind(satisfacao_democratica, 
-#                                c('Total',colSums(satisfacao_democratica[,1:2])))
-
 
 pandoc.table(satisfacao_democratica, 
              style = 'grid', 
