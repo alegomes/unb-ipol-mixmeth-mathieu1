@@ -8,6 +8,8 @@
 library(pander)
 library(readr)
 library(foreign)
+library(car)
+
 
 filepath <- '/Users/alegomes/GDrive/2018/unb/ipol/disc\ métodos\ mistos/provas/1.\ Mathieu/data/anes1992por/anes1992.POR'
 anes1992 <- read.spss(filepath, to.data.frame=TRUE)
@@ -59,7 +61,7 @@ y_candidate_evaluation <- (as.numeric(feeling_thermometer_republican_candidate)/
 # Issue proximity was coded in all election years such that higher scores 
 # represented greater voter issue similarity with the Republican candidate.
 #
-# TODO Incluir esta critica na selecao das observacoes
+# [TODO] Incluir esta critica na selecao das observacoes
 # Respondents who failed to answer at least half of the issue items 
 # in a given election year were excluded from all analyses. 
 
@@ -101,7 +103,7 @@ republican_perception_mean <- c(gov_spending=mean(as.numeric(levels(gov_spending
                                 defense_spending=mean(as.numeric(levels(defense_spending_republican)[as.integer(defense_spending_republican)]),na.rm=TRUE), 
                                 job_assurance=mean(as.numeric(levels(job_assurance_republican)[as.integer(job_assurance_republican)]),na.rm=TRUE), 
                                 abortion=mean(as.numeric(levels(abortion_republican)[as.integer(abortion_republican)]),na.rm=TRUE))
-# TODO Refatorar
+# [TODO] Refatorar
 issue_proximity <- NULL
 for (j in 1:length(anes1992)) { # For each responder
   
@@ -126,11 +128,11 @@ x1_issue_proximity <- issue_proximity[1:100]
 # com a simpatia que ele tem com cada partido. Aquele que ganhar maior
 # nota, vence.
 #
-# TODO Resolver o caso de ambos os termometros serem iguais
-#
 feeling_thermometer_democratic_party <- anes1992$V923317
 feeling_thermometer_republican_party <- anes1992$V923318
-x2_party_identification <- ifelse(as.numeric(feeling_thermometer_republican_party) < as.numeric(feeling_thermometer_democratic_party), "D", "R")[1:100]
+
+x2_party_identification <- ifelse(as.numeric(feeling_thermometer_republican_party) < as.numeric(feeling_thermometer_democratic_party), "D", 
+                           ifelse(as.numeric(feeling_thermometer_republican_party) > as.numeric(feeling_thermometer_democratic_party), "R","?"))[1:100]
 
 #########################################################################
 # CHARACTER ASSESSMENT
@@ -218,18 +220,176 @@ x5_white <- anes1992$race[1:100]
 # EDUCATION
 #########################################################################
 
-# TODO Como ele codificou?!
-x6_education <- anes1992$V923090[1:100]
+# Summary: R's Education
+# [TODO] Como ele codificou?!
+x6_education <- anes1992$V923908[1:100]
 
 #########################################################################
 # IDEOLOGICAL THINKING
 #########################################################################
-x7_ideological_thinking <- runif(100)
+
+# To facilitate a comparison of the coefficients within and between analyses, 
+# all variables were recoded to a 0 to 1 scale. 
+#
+# Moreover, to ease the interpretation of key interactions and to reduce 
+# multicollinearity between individual and cross-product terms, all 
+# variables involved in interaction terms (i.e., ideological thinking, 
+# political knowledge, issue proximity, party identification, perceptions 
+# of candidate character) were centred about their means.
+# 
+#    [?] O que esse ultimo paragrafo quer dizer?
+# 
+
+# Three types of items were included in each election year to assess the 
+# extent to which respondents judged political stimuli in ideological 
+# (liberal–conservative) terms:
+# (1) self-identification as liberal or conservative (versus moderate or no identification); 
+# (2) feeling close to the consistent ideological group; and 
+# (3) consistency between 
+#       ideological identification 
+#     on one hand, and 
+#       party identification, 
+#       feelings towards ideological groups, and 
+#       individual policy attitudes 
+#     on the other 
+# (all policy items included in the ANES for a given year were used 
+# in the assessment of ideological thinking; see the Appendix for 
+# a listing of issues and variable numbers). 
+#
+
+# Ideological Placement
+self_identification <- anes1992$V923509
+
+# Group R feels close to - Liberals/Conservatives
+feeling_close <- data.frame(anes1992$V926203, anes1992$V926211)
+
+# [?] Como calcular esses indicadores de consistencia.
+
+# Footnote 29. Respondents’ ideological self-identifications were considered 
+# consistent with their partisan identifications and their policy attitudes 
+# if their scores were on the same side of the 7-point scales for both items 
+# (i.e., 1, 2 or 3 for liberal/Democrat, and 5, 6 or 7 for conservative/Republican).
+
+# Laco condicional ineficiente em prol da clareza
+consistency_with_party_identification <- ifelse(is.na(x2_party_identification) | is.na(self_identification), FALSE,
+                                         ifelse(x2_party_identification == 'D' & as.numeric(self_identification) < 4, TRUE, 
+                                         ifelse(x2_party_identification == 'D' & as.numeric(self_identification) > 4, FALSE, 
+                                         ifelse(x2_party_identification == 'D' & as.numeric(self_identification) == 4, FALSE,
+                                         ifelse(x2_party_identification == 'R' & as.numeric(self_identification) < 4, FALSE, 
+                                         ifelse(x2_party_identification == 'R' & as.numeric(self_identification) > 4, TRUE, 
+                                         ifelse(x2_party_identification == 'R' & as.numeric(self_identification) == 4, FALSE, FALSE)))))))
+
+
+# Footnote 29. Respondents felt close to the consistent ideological group if liberals 
+# responded as ‘feeling close to’ liberals but not conservatives, 
+# and vice versa for conservatives.
+
+closeness <- data.frame(liberals=anes1992$V926203, 
+                        conservatives=anes1992$V926211)
+
+# [TODO] Buscar forma mais R-onica de fazer isto
+closeness$liberals <- ifelse(closeness$liberals == "Mentioned/marked", TRUE, FALSE)
+closeness$conservatives <- ifelse(closeness$conservatives == "Mentioned/marked", TRUE, FALSE)
+
+consistency_with_feelings_towards_groups <- ifelse(as.numeric(self_identification) == 4, FALSE,
+                                            ifelse(as.numeric(self_identification) < 4 & closeness$liberals, TRUE,
+                                            ifelse(as.numeric(self_identification) < 4 & closeness$conservatives, FALSE, 
+                                            ifelse(as.numeric(self_identification) > 4 & closeness$liberals, FALSE, 
+                                            ifelse(as.numeric(self_identification) > 4 & closeness$conservatives, TRUE, FALSE)))))
+
+individual_attitude_on_government_spending <- anes1992$V923701
+individual_attitude_on_defence_spending <-	anes1992$V923707
+individual_attitude_on_job_assurance	<-	anes1992$V923718
+individual_attitude_on_abortion	<-	anes1992$V923732
+individual_attitude_on_gov_support_blacks_position	<-	anes1992$V923729 # ou 923731?
+individual_attitude_on_women_rights	<-	anes1992$V923801
+individual_attitude_on_laws_protecting_homosexuals <-	anes1992$V925923 # ou 925924?
+individual_attitude_on_homosexuals_in_the_army	<-	anes1992$V925925 # ou 925926?
+individual_attitude_on_gay_adoption	<-	anes1992$V925927 # ou 925928?
+individual_attitude_on_government_integration_of_schools <-	anes1992$V925931 # ou 925932?
+individual_attitude_on_capital_punishment	<- NULL # [?] De onde posso tirar?
+individual_attitude_on_preferential_of_blacks	<-	anes1992$V925935 # ou 925936?
+individual_attitude_on_school_prayer <-	anes1992$V925945 # ou 925946?
+individual_attitude_on_black_student_quotas	<-	anes1992$V925947 # ou 925948?
+
+# [?] Como medir consistencia numa escala numerica e nao booleana?
+# consistency_with_individual_attitudes <- anes1992$V
+
+
+# ideological self-identifications were considered consistent with 
+# ideological feelings if respondents felt warmer towards the ideological 
+# group to which they identified (i.e., for liberals, if the feeling 
+# thermometer score for the group ‘liberals’ was higher than the feeling 
+# thermometer score for the group ‘conservatives’, and vice versa for conservatives).
+# ??????
+
+# Individual scores were computed by summing the number of ideologically correct responses.
+# [?] O que sao "ideologically correct responses"?
+#     Correct com base em que?
+
+# Nada do que viermos a calcular com tantas incerteza sera melhor 
+# do que uma listagem normal randomica de numeros :-)
+x7_ideological_thinking <- rnorm(100, mean=50, sd=10)
+
 
 #########################################################################
 # POLITICAL KNOWLEDGE
 #########################################################################
-x8_political_knowledge <- runif(100)
+
+# Each of the ANES surveys included a battery of objective knowledge questions, 
+# pertaining to jobs held by well-known political figures (such as Margaret Thatcher, 
+# Newt Gingrich, Yasser Arafat), the responsibilities of each branch of government 
+# (for example, who nominates judges to the federal courts), and party control 
+# of Congress (for a listing of the items, see the Appendix). 
+#
+# All political knowledge items were scored 1 if correct and 0 if incorrect (or ‘don’t know’)
+
+# Does R know job/office Dan Quayle holds?	
+political_knwoledge_dan_quayle <- unlist(recode(lapply(anes1992$V925916, as.character), "'Correctly identifies Quayle'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
+# Does R know job/office William Rehnquist holds?	
+political_knwoledge_william_rehnquist <- unlist(recode(lapply(anes1992$V925917, as.character), "'Correctly identifies Rehnquist'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
+# Does R know job/office Boris Yeltsin holds?	
+political_knwoledge_boris_yeltsin <- unlist(recode(lapply(anes1992$V925918, as.character), "'Correctly identifies Yeltsin'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
+# Does R know job/office Tom Foley holds?	
+political_knwoledge_tom_foley <- unlist(recode(lapply(anes1992$V925919, as.character), "'Correctly identifies Foley'=1; 'Identification is incomplete or wrong'=0;"),use.names=FALSE)
+# Who ha
+s the final responsibility to decide the constitutionality of law?	
+political_knwoledge_constitutionality <- unlist(recode(lapply(anes1992$V925920, as.character), "'PRESIDENT'=0; 'CONGRESS'=0; 'SUPREME COURT'=1"),use.names=FALSE)
+# Who nominates judges to the federal courts?	
+political_knwoledge_federal_court <- unlist(recode(lapply(anes1992$V925921, as.character), "'PRESIDENT'=1; 'CONGRESS'=0; 'SUPREME COURT'=0"),use.names=FALSE)
+# Does R know which party had most members in the US House before the election?	
+political_knwoledge_ushouse_most_member <- unlist(recode(lapply(anes1992$V925951, as.character), "'REPUBLICANS'=0; 'DEMOCRATS'=1;"),use.names=FALSE)
+# Does R know which party had most members in the Senate before the election?	
+political_knwoledge_senate_most_member <- unlist(recode(lapply(anes1992$V925952, as.character), "'REPUBLICANS'=0; 'DEMOCRATS'=1;"),use.names=FALSE)
+
+political_knwoledge_dan_quayle[is.na(political_knwoledge_dan_quayle)] <- 0
+political_knwoledge_william_rehnquist[is.na(political_knwoledge_william_rehnquist)] <- 0
+political_knwoledge_boris_yeltsin[is.na(political_knwoledge_boris_yeltsin)] <- 0
+political_knwoledge_tom_foley[is.na(political_knwoledge_tom_foley)] <- 0
+
+political_knwoledge_constitutionality[is.na(political_knwoledge_constitutionality)] <- 0
+political_knwoledge_federal_court[is.na(political_knwoledge_federal_court)] <- 0
+political_knwoledge_ushouse_most_member[is.na(political_knwoledge_ushouse_most_member)] <- 0
+political_knwoledge_senate_most_member[is.na(political_knwoledge_senate_most_member)] <- 0
+
+political_knowledge <- data.frame(dan_quayle=political_knwoledge_dan_quayle,
+                                  william_rehnquist=political_knwoledge_william_rehnquist,
+                                  boris_yeltsin=political_knwoledge_boris_yeltsin,
+                                  tom_foley=political_knwoledge_tom_foley,
+                                  constitutionality=political_knwoledge_constitutionality,
+                                  federal_court=political_knwoledge_federal_court,
+                                  ushouse_most_member=political_knwoledge_ushouse_most_member,
+                                  senate_most_member=political_knwoledge_senate_most_member)
+
+x8_polit# [?] Tem que ser na escala 0-1?
+ical_knowledge <- runif(10apply(political_knowledge, 1, function(x){ sum(as.numeric(x))}test the switching mechanism hypothesis, six interaction terms were 
+# constructed. In the first set of terms, 
+#   ideological thinking scores 
+# were multiplied by 
+#   issue proximity scores, 
+#   party identification scores and 
+#   character assessment scores, 
+# respectively.
 
 #########################################################################
 # IDEOLOGICAL THINKING x CHARACTER ASSESMENT
@@ -245,6 +405,15 @@ x10_ideological_thinking_issue_proximity <- rnorm(100, mean=45, sd=10)
 # IDEOLOGICAL THINKING x PARTY IDENTIFICATION
 #########################################################################
 x11_ideological_thinking_party_identification <- rnorm(100, mean=40, sd=10)
+
+
+# To control for the effects of political knowledge, we constructed 
+# a second set of interaction terms in which 
+#   issue proximity, 
+#   party identification and 
+#   character assessment 
+# were each multiplied by 
+#   political knowledge scores.
 
 #########################################################################
 # POLITICAL KNOWLEDGE x CHARACTER ASSESMEN
