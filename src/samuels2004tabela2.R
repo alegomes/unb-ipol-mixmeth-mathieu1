@@ -12,20 +12,20 @@ get_idp_pop <- function() {
   # “Medimos o apoio ao PT como identificação partidária com o partido. 
   #  Neste caso, o respondente do ESEB primeiro declara que se identifica 
   # com um partido e em seguida declara qual o partido.” (p. 226) 
-  idp_pop <- as.data.frame(prop.table(summary(eseb2002$p32)))
+  idp_pop <- as.data.frame(prop.table(table(eseb2002$p32, useNA='always')))
   
   # Transformando o rownames numa coluna de dados pra facilitar a selecao
-  idp_pop <- data.frame(partido=row.names(idp_pop), percentual=idp_pop[,1])
+  # idp_pop <- data.frame(partido=row.names(idp_pop), percentual=idp_pop[,1])
   
-  idp_pop_pt <- sum(idp_pop[which(idp_pop$partido %in% c('PT','Lula')),2])
-  idp_pop_pmdb <- sum(idp_pop[which(idp_pop$partido %in% c('PMDB')),2])
-  idp_pop_psdb <- sum(idp_pop[which(idp_pop$partido %in% c('PSDB')),2])
-  idp_pop_pfl <- sum(idp_pop[which(idp_pop$partido %in% c('PFL')),2])
-  idp_pop_pdt <- sum(idp_pop[which(idp_pop$partido %in% c('PDT')),2])
-  idp_pop_ptb <- sum(idp_pop[which(idp_pop$partido %in% c('PTB')),2])
+  idp_pop_pt <- sum(idp_pop[which(idp_pop$Var1 %in% c('PT','Lula')),2])
+  idp_pop_pmdb <- sum(idp_pop[which(idp_pop$Var1 %in% c('PMDB')),2])
+  idp_pop_psdb <- sum(idp_pop[which(idp_pop$Var1 %in% c('PSDB')),2])
+  idp_pop_pfl <- sum(idp_pop[which(idp_pop$Var1 %in% c('PFL')),2])
+  idp_pop_pdt <- sum(idp_pop[which(idp_pop$Var1 %in% c('PDT')),2])
+  idp_pop_ptb <- sum(idp_pop[which(idp_pop$Var1 %in% c('PTB')),2])
   
-  outros <- idp_pop[which(!(idp_pop$partido %in% c('PT','Lula','PMDB','PSDB','PFL','PDT','PTB', "NA'S"))),]
-  idp_pop_outros <- sum(outros[order(-outros$percentual),][2:12,2])
+  outros <- idp_pop[which(!(idp_pop$Var1 %in% c('PT','Lula','PMDB','PSDB','PFL','PDT','PTB', "NA'S"))),]
+  idp_pop_outros <- sum(outros[order(-outros$Freq),][2:12,2])
   
   idp_pop <- c(idp_pop_pt * 100,
                idp_pop_pmdb * 100,
