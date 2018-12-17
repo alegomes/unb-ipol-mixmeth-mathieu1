@@ -22,8 +22,8 @@ cat_emp_desempregado <- sample(rep(c(0,1),1000),1000)
 preferencias <- factor(c(1,2,3,4,5,6), labels=c('pessimo', 'ruim', 'regular pra ruim', 'regular pra bom', 'bom', 'otimo'), ordered=TRUE)
 
 av_gov_fhc <- sample(rep(preferencias,1000),1000)
-
 opiniao_sobre_lula <- sample(rep(factor(0:12, ordered=T),1000),1000)
+ideologia_esquerda_direita <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
 
 logit <- glm(identificacao_partidaria ~  cat_emp_trabalhador_rural + 
                                          cat_emp_pequeno_burgues +
@@ -37,7 +37,8 @@ logit <- glm(identificacao_partidaria ~  cat_emp_trabalhador_rural +
                                          cat_emp_estudante +
                                          cat_emp_desempregado + 
                                          av_gov_fhc +
-                                         opiniao_sobre_lula
+                                         opiniao_sobre_lula +
+                                         ideologia_esquerda_direita
               ,family="binomial")
 
 summary(logit)
