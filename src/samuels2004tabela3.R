@@ -7,12 +7,12 @@
 
 identificacao_partidaria <- sample(rep(as.factor(c('PT','PSDB', 'PMDB', 'PFL', 'Outro', 'Nenhuma')),1000),1000)
 
-categoria_emprego <- factor(c('.trabalhador rural', '.pequeno burgues', 'dona de casa', 'setor informal', 
+categoria_emprego <- factor(c('trabalhador rural', 'pequeno burgues', 'dona de casa', 'setor informal', 
                             'profissional liberal', 'militar/policial', 'mao de obra especializada',
                             'mao de obra nao especializada', 'aposentado', 'estudante',
                             'desempregado'))
 
-categoria_emprego <- sample(rep(categoria_emprego,1000),1000)
+categoria_emprego_ <- sample(rep(categoria_emprego,1000),1000)
 
 # cat_emp_trabalhador_rural <- sample(rep(c(0,1),1000),1000)
 # cat_emp_pequeno_burgues <- sample(rep(c(0,1),1000),1000)
@@ -32,14 +32,15 @@ avaliacao_governo_fhc <- sample(rep(c(1,2,3,4,5,6),1000),1000)
 
 # opiniao_sobre_lula <- sample(rep(factor(0:12, ordered=T),1000),1000)
 opiniao_sobre_lula <- sample(rep(c(0:12),1000),1000)
-ideologia_esquerda_direita <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
+# ideologia_esquerda_direita <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
+ideologia_esquerda_direita <- sample(rep(c(0:10,66),1000),1000)
 religicao_catolico  <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
 religicao_evangelico  <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
 
 # TODO Se ligar que ele desmembra os factors na regressao!!!!
 # Avaliar o que eh variavel e o que eh (pode ser) factor
 
-logit <- glm(identificacao_partidaria ~  categoria_emprego+
+logit <- glm(identificacao_partidaria ~  categoria_emprego_+
                                          # cat_emp_trabalhador_rural + 
                                          # cat_emp_pequeno_burgues +
                                          # cat_emp_dona_casa +
