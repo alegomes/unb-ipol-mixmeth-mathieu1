@@ -36,9 +36,10 @@ opiniao_sobre_lula <- sample(rep(c(0:12),1000),1000)
 ideologia_esquerda_direita <- sample(rep(c(0:10,66),1000),1000)
 religicao_catolico  <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
 religicao_evangelico  <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
+nao_branco  <- sample(rep(factor(c(0:1)),1000),1000)
+mulheres  <- sample(rep(factor(c(0:1)),1000),1000)
 
-# TODO Se ligar que ele desmembra os factors na regressao!!!!
-# Avaliar o que eh variavel e o que eh (pode ser) factor
+
 
 logit <- glm(identificacao_partidaria ~  categoria_emprego_+
                                          # cat_emp_trabalhador_rural + 
@@ -54,7 +55,9 @@ logit <- glm(identificacao_partidaria ~  categoria_emprego_+
                                          # cat_emp_desempregado + 
                                          av_gov_fhc +
                                          opiniao_sobre_lula +
-                                         ideologia_esquerda_direita
+                                         ideologia_esquerda_direita +
+                                         nao_branco + 
+                                         mulheres
               ,family="binomial")
 
 summary(logit)
