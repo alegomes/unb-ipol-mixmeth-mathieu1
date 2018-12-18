@@ -38,7 +38,7 @@ religicao_catolico  <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
 religicao_evangelico  <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
 nao_branco  <- sample(rep(factor(c(0:1)),1000),1000)
 mulheres  <- sample(rep(factor(c(0:1)),1000),1000)
-
+idade <- sample(rep(16:94, 1000), 1000)
 
 
 logit <- glm(identificacao_partidaria ~  categoria_emprego_+
@@ -57,7 +57,8 @@ logit <- glm(identificacao_partidaria ~  categoria_emprego_+
                                          opiniao_sobre_lula +
                                          ideologia_esquerda_direita +
                                          nao_branco + 
-                                         mulheres
+                                         mulheres + 
+                                         idade
               ,family="binomial")
 
 summary(logit)
