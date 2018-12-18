@@ -39,6 +39,18 @@ religicao_evangelico  <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
 nao_branco  <- sample(rep(factor(c(0:1)),1000),1000)
 mulheres  <- sample(rep(factor(c(0:1)),1000),1000)
 idade <- sample(rep(16:94, 1000), 1000)
+renda_familiar <- sample(0:25000, 1000)
+escolaridade <- sample(1:21, 1000)
+conhecimento_politico <- sample(0:10, 1000)
+intervencao_governo <- sample(0:10, 1000)
+regulamentacao_governo <- sample(0:10, 1000)
+nacionalismo_economico <- sample(0:10, 1000)
+apoio_clientelismo <- sample(0:10, 1000)
+apoio_roubamasfaz <- sample(0:10, 1000)
+liberdade_expressao <- sample(0:10, 1000)
+valores_hierarquicos <- sample(0:10, 1000)
+participaca_eleitoral <- sample(0:10, 1000)
+eficacia_participaca <- sample(0:10, 1000)
 
 
 logit <- glm(identificacao_partidaria ~  categoria_emprego_+
@@ -58,7 +70,20 @@ logit <- glm(identificacao_partidaria ~  categoria_emprego_+
                                          ideologia_esquerda_direita +
                                          nao_branco + 
                                          mulheres + 
-                                         idade
+                                         idade + 
+                                         renda_familiar +
+                                         escolaridade +
+                                         conhecimento_politico +
+                                         intervencao_governo +
+                                         regulamentacao_governo +
+                                         nacionalismo_economico +
+                                         apoio_clientelismo +
+                                         apoio_roubamasfaz +
+                                         liberdade_expressao +
+                                         valores_hierarquicos +
+                                         participaca_eleitoral +
+                                         eficacia_participaca
+                                         
               ,family="binomial")
 
 summary(logit)
