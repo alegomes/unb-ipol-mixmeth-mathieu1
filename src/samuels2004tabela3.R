@@ -7,7 +7,7 @@
 
 identificacao_partidaria <- sample(rep(as.factor(c('PT','PSDB', 'PMDB', 'PFL', 'Outro', 'Nenhuma')),1000),1000)
 
-categoria_emprego <- factor(c('trabalhador rural', 'pequeno burgues', 'dona de casa', 'setor informal', 
+categoria_emprego <- factor(c('.trabalhador rural', '.pequeno burgues', 'dona de casa', 'setor informal', 
                             'profissional liberal', 'militar/policial', 'mao de obra especializada',
                             'mao de obra nao especializada', 'aposentado', 'estudante',
                             'desempregado'))
@@ -26,8 +26,9 @@ categoria_emprego <- sample(rep(categoria_emprego,1000),1000)
 # cat_emp_estudante <- sample(rep(c(0,1),1000),1000)
 # cat_emp_desempregado <- sample(rep(c(0,1),1000),1000)
 
-preferencias <- factor(c(1,2,3,4,5,6), labels=c('pessimo', 'ruim', 'regular pra ruim', 'regular pra bom', 'bom', 'otimo'), ordered=TRUE)
-av_gov_fhc <- sample(rep(preferencias,1000),1000)
+# preferencias <- factor(c(1,2,3,4,5,6), labels=c('pessimo', 'ruim', 'regular pra ruim', 'regular pra bom', 'bom', 'otimo'), ordered=TRUE)
+# av_gov_fhc <- sample(rep(preferencias,1000),1000)
+avaliacao_governo_fhc <- sample(rep(c(1,2,3,4,5,6),1000),1000)
 
 opiniao_sobre_lula <- sample(rep(factor(0:12, ordered=T),1000),1000)
 ideologia_esquerda_direita <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
