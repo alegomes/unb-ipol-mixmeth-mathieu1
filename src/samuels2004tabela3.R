@@ -13,26 +13,8 @@ categoria_emprego <- factor(c('trabalhador rural', 'pequeno burgues', 'dona de c
                             'desempregado'))
 
 categoria_emprego_ <- sample(rep(categoria_emprego,1000),1000)
-
-# cat_emp_trabalhador_rural <- sample(rep(c(0,1),1000),1000)
-# cat_emp_pequeno_burgues <- sample(rep(c(0,1),1000),1000)
-# cat_emp_dona_casa <- sample(rep(c(0,1),1000),1000)
-# cat_emp_setor_informal <- sample(rep(c(0,1),1000),1000)
-# cat_emp_profissional_liberal <- sample(rep(c(0,1),1000),1000)
-# cat_emp_militar_policial <- sample(rep(c(0,1),1000),1000)
-# cat_emp_maodeobra_especializada <- sample(rep(c(0,1),1000),1000)
-# cat_emp_maodeobra_nao_especalizada <- sample(rep(c(0,1),1000),1000)
-# cat_emp_aposentado <- sample(rep(c(0,1),1000),1000)
-# cat_emp_estudante <- sample(rep(c(0,1),1000),1000)
-# cat_emp_desempregado <- sample(rep(c(0,1),1000),1000)
-
-# preferencias <- factor(c(1,2,3,4,5,6), labels=c('pessimo', 'ruim', 'regular pra ruim', 'regular pra bom', 'bom', 'otimo'), ordered=TRUE)
-# av_gov_fhc <- sample(rep(preferencias,1000),1000)
 avaliacao_governo_fhc <- sample(rep(c(1,2,3,4,5,6),1000),1000)
-
-# opiniao_sobre_lula <- sample(rep(factor(0:12, ordered=T),1000),1000)
 opiniao_sobre_lula <- sample(rep(c(0:12),1000),1000)
-# ideologia_esquerda_direita <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
 ideologia_esquerda_direita <- sample(rep(c(0:10,66),1000),1000)
 religicao_catolico  <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
 religicao_evangelico  <- sample(rep(factor(c(0:10,66), ordered=T),1000),1000)
@@ -40,32 +22,21 @@ nao_branco  <- sample(rep(factor(c(0:1)),1000),1000)
 mulheres  <- sample(rep(factor(c(0:1)),1000),1000)
 idade <- sample(rep(16:94, 1000), 1000)
 renda_familiar <- sample(0:25000, 1000)
-escolaridade <- sample(1:21, 1000)
-conhecimento_politico <- sample(0:10, 1000)
-intervencao_governo <- sample(0:10, 1000)
-regulamentacao_governo <- sample(0:10, 1000)
-nacionalismo_economico <- sample(0:10, 1000)
-apoio_clientelismo <- sample(0:10, 1000)
-apoio_roubamasfaz <- sample(0:10, 1000)
-liberdade_expressao <- sample(0:10, 1000)
-valores_hierarquicos <- sample(0:10, 1000)
-participaca_eleitoral <- sample(0:10, 1000)
-eficacia_participaca <- sample(0:10, 1000)
+escolaridade <- sample(rep(1:21,1000), 1000)
+conhecimento_politico <- sample(rep(0:10,1000), 1000)
+intervencao_governo <- sample(rep(0:10,1000), 1000)
+regulamentacao_governo <- sample(rep(0:10,1000), 1000)
+nacionalismo_economico <- sample(rep(0:10,1000), 1000)
+apoio_clientelismo <- sample(rep(0:10,1000), 1000)
+apoio_roubamasfaz <- sample(rep(0:10,1000), 1000)
+liberdade_expressao <- sample(rep(0:10,1000), 1000)
+valores_hierarquicos <- sample(rep(0:10,1000), 1000)
+participaca_eleitoral <- sample(rep(0:10,1000), 1000)
+eficacia_participaca <- sample(rep(0:10,1000), 1000)
 
 
 logit <- glm(identificacao_partidaria ~  categoria_emprego_+
-                                         # cat_emp_trabalhador_rural + 
-                                         # cat_emp_pequeno_burgues +
-                                         # cat_emp_dona_casa +
-                                         # cat_emp_setor_informal + 
-                                         # cat_emp_profissional_liberal + 
-                                         # cat_emp_militar_policial +
-                                         # cat_emp_maodeobra_especializada + 
-                                         # cat_emp_maodeobra_nao_especalizada +
-                                         # cat_emp_aposentado +
-                                         # cat_emp_estudante +
-                                         # cat_emp_desempregado + 
-                                         av_gov_fhc +
+                                         avaliacao_governo_fhc +
                                          opiniao_sobre_lula +
                                          ideologia_esquerda_direita +
                                          nao_branco + 
