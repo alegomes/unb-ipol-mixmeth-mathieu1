@@ -313,3 +313,60 @@ logit <- glm(petistas ~  categoria_emprego_+
               ,family="binomial")
 
 summary(logit)
+
+# Call:
+#   glm(formula = petistas ~ categoria_emprego_ + avaliacao_governo_fhc + 
+#         opiniao_sobre_lula + ideologia_esquerda_direita + religicao_catolico + 
+#         religicao_evangelico + nao_branco + mulheres + idade + renda_familiar + 
+#         escolaridade + conhecimento_politico + intervencao_governo + 
+#         regulamentacao_governo + nacionalismo_economico + apoio_clientelismo + 
+#         apoio_roubamasfaz + liberdade_expressao + valores_hierarquicos + 
+#         participaca_eleitoral + participacao_nao_eleitoral + eficacia_participaca, 
+#       family = "binomial")
+# 
+# Deviance Residuals: 
+#   Min       1Q   Median       3Q      Max  
+# -2.1455  -0.6759   0.2518   0.6827   2.7029  
+# 
+# Coefficients:
+#   Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)                                 -3.512e+00  3.040e+00  -1.156  0.24787    
+# categoria_emprego_dona de casa               2.995e-01  1.180e+00   0.254  0.79962    
+# categoria_emprego_profissional liberal      -1.138e-02  1.532e+00  -0.007  0.99407    
+# categoria_emprego_militar/policial          -1.763e+00  1.962e+00  -0.899  0.36878    
+# categoria_emprego_mao de obra especializada  1.666e+01  1.455e+03   0.011  0.99086    
+# categoria_emprego_aposentado                 8.301e-01  1.192e+00   0.696  0.48632    
+# categoria_emprego_estudante                 -3.557e-02  1.298e+00  -0.027  0.97814    
+# categoria_emprego_desempregado               1.231e-01  1.148e+00   0.107  0.91456    
+# avaliacao_governo_fhc                       -2.942e-01  1.328e-01  -2.215  0.02675 *  
+#   opiniao_sobre_lula                           4.892e-01  9.421e-02   5.193 2.07e-07 ***
+#   ideologia_esquerda_direita                  -1.512e-02  5.536e-02  -0.273  0.78470    
+# religicao_catolico                          -2.767e-01  6.221e-01  -0.445  0.65649    
+# religicao_evangelico                         5.111e-02  7.438e-01   0.069  0.94522    
+# nao_branco                                   2.665e-01  4.691e-01   0.568  0.56992    
+# mulheres                                    -6.338e-03  5.237e-01  -0.012  0.99034    
+# idade                                       -3.017e-02  2.026e-02  -1.490  0.13633    
+# renda_familiar                               1.314e-02  4.830e-03   2.721  0.00651 ** 
+#   escolaridade                                 6.080e-02  5.977e-02   1.017  0.30908    
+# conhecimento_politico                        1.361e-01  6.556e-02   2.077  0.03782 *  
+#   intervencao_governo                         -6.034e-02  4.090e-02  -1.475  0.14021    
+# regulamentacao_governo                       2.662e-02  5.384e-02   0.494  0.62104    
+# nacionalismo_economico                       5.311e-02  4.899e-02   1.084  0.27826    
+# apoio_clientelismo                           2.420e-01  1.077e-01   2.248  0.02459 *  
+#   apoio_roubamasfaz                           -4.657e-02  1.540e-01  -0.302  0.76233    
+# liberdade_expressao                         -1.666e-01  1.299e-01  -1.283  0.19953    
+# valores_hierarquicos                        -7.218e-02  3.604e-02  -2.003  0.04519 *  
+#   participaca_eleitoral                        5.108e-02  2.212e-01   0.231  0.81738    
+# participacao_nao_eleitoral                  -3.966e-02  9.093e-02  -0.436  0.66272    
+# eficacia_participaca                        -7.302e-02  2.137e-01  -0.342  0.73264    
+# ---
+#   Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+# Null deviance: 252.77  on 182  degrees of freedom
+# Residual deviance: 160.97  on 154  degrees of freedom
+# (2331 observations deleted due to missingness)
+# AIC: 218.97
+# 
+# Number of Fisher Scoring iterations: 14
