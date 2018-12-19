@@ -27,6 +27,11 @@ categorias_emprego <- factor(c('trabalhador rural', 'pequeno burgues', 'dona de 
                         'mao de obra nao especializada', 'aposentado', 'estudante',
                         'desempregado'))
 
+categorias_emprego <- c('trabalhador rural', 'pequeno burgues', 'dona de casa', 'setor informal', 
+                        'profissional liberal', 'militar/policial', 'mao de obra especializada',
+                        'mao de obra nao especializada', 'aposentado', 'estudante',
+                        'desempregado')
+
 # > levels(eseb2002$p162)
 # [1] "Empregado assalariado"                               "Aut\364nomo"                                         "Profissional liberal"                               
 # [4] "Empregador/empres\341rio"                            "Estudante"                                           "Desempregado"                                       
@@ -173,13 +178,20 @@ eseb2002$emprego[eseb2002$p162 == levels(eseb2002$p162)[5]] <- categorias_empreg
 # desempregado
 eseb2002$emprego[eseb2002$p162 == levels(eseb2002$p162)[6]] <- categorias_emprego[11]
 
-categoria_emprego_ <- eseb2002$emprego
+categoria_emprego_ <- factor(eseb2002$emprego, levels=categorias_emprego)
 
 avaliacao_governo_fhc <- as.numeric(eseb2002$p18)
 opiniao_sobre_lula <- as.numeric(eseb2002$p43a)
-ideologia_esquerda_direita <- sample(rep(c(0:10,66),2514),2514)
-religicao_catolico  <- sample(rep(factor(c(0:10,66), ordered=T),2514),2514)
-religicao_evangelico  <- sample(rep(factor(c(0:10,66), ordered=T),2514),2514)
+ideologia_esquerda_direita <- as.numeric(eseb2002$p50v1) # Pq nao p50v2 ou uma combinacao de ambas?
+
+eseb2002$catolicos[eseb2002$p182 == levels(eseb2002$p182)[8]] <- 1
+eseb2002$catolicos[eseb2002$p182 != levels(eseb2002$p182)[8]] <- 0
+religicao_catolico  <- eseb2002$catolicos
+
+eseb2002$evangelicos[eseb2002$p182 == levels(eseb2002$p182)[2] | eseb2002$p182 == levels(eseb2002$p182)[3]] <- 1
+eseb2002$evangelicos[eseb2002$p182 != levels(eseb2002$p182)[2] & eseb2002$p182 != levels(eseb2002$p182)[3]] <- 0
+religicao_evangelico  <- eseb2002$evangelicos
+
 nao_branco  <- sample(rep(factor(c(0:1)),2514),2514)
 mulheres  <- sample(rep(factor(c(0:1)),2514),2514)
 idade <- sample(rep(16:94, 2514), 2514)
@@ -201,6 +213,8 @@ logit <- glm(petistas ~  categoria_emprego_+
                                          avaliacao_governo_fhc +
                                          opiniao_sobre_lula +
                                          ideologia_esquerda_direita +
+                                         religicao_catolico +
+                                         religicao_evangelico +
                                          nao_branco + 
                                          mulheres + 
                                          idade + 
