@@ -176,7 +176,7 @@ eseb2002$emprego[eseb2002$p162 == levels(eseb2002$p162)[6]] <- categorias_empreg
 categoria_emprego_ <- eseb2002$emprego
 
 avaliacao_governo_fhc <- as.numeric(eseb2002$p18)
-opiniao_sobre_lula <- sample(rep(c(0:12),2514),2514)
+opiniao_sobre_lula <- as.numeric(eseb2002$p43a)
 ideologia_esquerda_direita <- sample(rep(c(0:10,66),2514),2514)
 religicao_catolico  <- sample(rep(factor(c(0:10,66), ordered=T),2514),2514)
 religicao_evangelico  <- sample(rep(factor(c(0:10,66), ordered=T),2514),2514)
