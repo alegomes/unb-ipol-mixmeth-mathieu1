@@ -256,11 +256,35 @@ apoio_clientelismo <- as.numeric(eseb2002$p93) +
                       as.numeric(eseb2002$p103) +
                       as.numeric(eseb2002$p104) 
   
-apoio_roubamasfaz <- sample(rep(0:10,2514), 2514)
-liberdade_expressao <- sample(rep(0:10,2514), 2514)
-valores_hierarquicos <- sample(rep(0:10,2514), 2514)
-participaca_eleitoral <- sample(rep(0:10,2514), 2514)
-eficacia_participaca <- sample(rep(0:10,2514), 2514)
+apoio_roubamasfaz <- as.numeric(eseb2002$p105b)
+
+# Da pra considerar varias outras perguntas tmb
+liberdade_expressao <-  as.numeric(eseb2002$p106d)
+
+# Tenho duvidas...
+valores_hierarquicos <- as.numeric(eseb2002$p134a) +
+                        as.numeric(eseb2002$p134b) +
+                        as.numeric(eseb2002$p134c) +
+                        as.numeric(eseb2002$p134d) +
+                        as.numeric(eseb2002$p134e) +
+                        as.numeric(eseb2002$p134f) +
+                        as.numeric(eseb2002$p134g)
+
+participaca_eleitoral <- as.numeric(eseb2002$p06)
+
+participacao_nao_eleitoral <- as.numeric(eseb2002$p75a) +
+                              as.numeric(eseb2002$p75b) +
+                              as.numeric(eseb2002$p75c) +
+                              as.numeric(eseb2002$p77a) +
+                              as.numeric(eseb2002$p77b) +
+                              as.numeric(eseb2002$p77c) +
+                              as.numeric(eseb2002$p77d) +
+                              as.numeric(eseb2002$p77e) +
+                              as.numeric(eseb2002$p78a) +
+                              as.numeric(eseb2002$p78b) +
+                              as.numeric(eseb2002$p78c) 
+
+eficacia_participaca <- as.numeric(eseb2002$p21)
 
 
 logit <- glm(petistas ~  categoria_emprego_+
@@ -283,6 +307,7 @@ logit <- glm(petistas ~  categoria_emprego_+
                                          liberdade_expressao +
                                          valores_hierarquicos +
                                          participaca_eleitoral +
+                                         participacao_nao_eleitoral + 
                                          eficacia_participaca
                                          
               ,family="binomial")
