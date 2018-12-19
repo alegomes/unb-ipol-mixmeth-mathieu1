@@ -27,8 +27,6 @@ categorias_emprego <- factor(c('trabalhador rural', 'pequeno burgues', 'dona de 
                         'mao de obra nao especializada', 'aposentado', 'estudante',
                         'desempregado'))
 
-# categoria_emprego_ <- sample(rep(categoria_emprego,2514),2514)
-
 # > levels(eseb2002$p162)
 # [1] "Empregado assalariado"                               "Aut\364nomo"                                         "Profissional liberal"                               
 # [4] "Empregador/empres\341rio"                            "Estudante"                                           "Desempregado"                                       
@@ -177,7 +175,7 @@ eseb2002$emprego[eseb2002$p162 == levels(eseb2002$p162)[6]] <- categorias_empreg
 
 categoria_emprego_ <- eseb2002$emprego
 
-avaliacao_governo_fhc <- sample(rep(c(1,2,3,4,5,6),2514),2514)
+avaliacao_governo_fhc <- as.numeric(eseb2002$p18)
 opiniao_sobre_lula <- sample(rep(c(0:12),2514),2514)
 ideologia_esquerda_direita <- sample(rep(c(0:10,66),2514),2514)
 religicao_catolico  <- sample(rep(factor(c(0:10,66), ordered=T),2514),2514)
