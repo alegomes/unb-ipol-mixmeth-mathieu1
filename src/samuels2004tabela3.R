@@ -206,8 +206,30 @@ renda_familiar <- as.numeric(eseb2002$p176)
 
 escolaridade <- as.numeric(eseb2002$p159)
 
-conhecimento_politico <- sample(rep(0:10,2514), 2514)
-intervencao_governo <- sample(rep(0:10,2514), 2514)
+# Nao identificamos a fonte do conhecimento politico 
+# Poderia ser a questao 41, mas haveria a necessidade de se
+# ter um gabarito para afericao das respostas com uma escala
+# comum de avaliacao a ser utilizada na regressao
+conhecimento_politico <- sample(rep(0:10,2514), 2514) 
+
+# Nao identificamos a fonte do conhecimento politico 
+# Poderia ser a questao 107, mas tambem haveria a necessidade
+# de gabarito
+intervencao_governo <-  as.numeric(eseb2002$p107a) +
+                        as.numeric(eseb2002$p107b) +
+                        as.numeric(eseb2002$p107c) +
+                        as.numeric(eseb2002$p107d) +
+                        as.numeric(eseb2002$p107e) +
+                        as.numeric(eseb2002$p107f) +
+                        as.numeric(eseb2002$p107g) +
+                        as.numeric(eseb2002$p107h) +
+                        as.numeric(eseb2002$p107i) +
+                        as.numeric(eseb2002$p107j) +
+                        as.numeric(eseb2002$p107k) +
+                        as.numeric(eseb2002$p107l) +
+                        as.numeric(eseb2002$p107m) +
+                        as.numeric(eseb2002$p107n)
+
 regulamentacao_governo <- sample(rep(0:10,2514), 2514)
 nacionalismo_economico <- sample(rep(0:10,2514), 2514)
 apoio_clientelismo <- sample(rep(0:10,2514), 2514)
