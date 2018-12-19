@@ -240,7 +240,14 @@ regulamentacao_governo <- as.numeric(eseb2002$p108a) +
                           as.numeric(eseb2002$p108f) +
                           as.numeric(eseb2002$p108g) 
 
-nacionalismo_economico <- sample(rep(0:10,2514), 2514)
+nacionalismo_economico <- as.numeric(eseb2002$p109a) +
+                          as.numeric(eseb2002$p109b) -
+                          as.numeric(eseb2002$p109c) -
+                          as.numeric(eseb2002$p109d) +
+                          as.numeric(eseb2002$p109e) +
+                          as.numeric(eseb2002$p109f) -
+                          as.numeric(eseb2002$p109g) 
+  
 apoio_clientelismo <- sample(rep(0:10,2514), 2514)
 apoio_roubamasfaz <- sample(rep(0:10,2514), 2514)
 liberdade_expressao <- sample(rep(0:10,2514), 2514)
