@@ -204,7 +204,8 @@ idade <- eseb2002$p157
 
 renda_familiar <- as.numeric(eseb2002$p176)
 
-escolaridade <- sample(rep(1:21,2514), 2514)
+escolaridade <- as.numeric(eseb2002$p159)
+
 conhecimento_politico <- sample(rep(0:10,2514), 2514)
 intervencao_governo <- sample(rep(0:10,2514), 2514)
 regulamentacao_governo <- sample(rep(0:10,2514), 2514)
