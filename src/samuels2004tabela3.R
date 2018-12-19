@@ -247,8 +247,15 @@ nacionalismo_economico <- as.numeric(eseb2002$p109a) +
                           as.numeric(eseb2002$p109e) +
                           as.numeric(eseb2002$p109f) -
                           as.numeric(eseb2002$p109g) 
+
+# Talvez tambem a 127
+apoio_clientelismo <- as.numeric(eseb2002$p93) +
+                      as.numeric(eseb2002$p95) +
+                      as.numeric(eseb2002$p97) +
+                      as.numeric(eseb2002$p99) +
+                      as.numeric(eseb2002$p103) +
+                      as.numeric(eseb2002$p104) 
   
-apoio_clientelismo <- sample(rep(0:10,2514), 2514)
 apoio_roubamasfaz <- sample(rep(0:10,2514), 2514)
 liberdade_expressao <- sample(rep(0:10,2514), 2514)
 valores_hierarquicos <- sample(rep(0:10,2514), 2514)
