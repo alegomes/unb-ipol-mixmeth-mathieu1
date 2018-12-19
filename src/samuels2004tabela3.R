@@ -192,10 +192,18 @@ eseb2002$evangelicos[eseb2002$p182 == levels(eseb2002$p182)[2] | eseb2002$p182 =
 eseb2002$evangelicos[eseb2002$p182 != levels(eseb2002$p182)[2] & eseb2002$p182 != levels(eseb2002$p182)[3]] <- 0
 religicao_evangelico  <- eseb2002$evangelicos
 
-nao_branco  <- sample(rep(factor(c(0:1)),2514),2514)
-mulheres  <- sample(rep(factor(c(0:1)),2514),2514)
-idade <- sample(rep(16:94, 2514), 2514)
-renda_familiar <- sample(0:25000, 2514)
+eseb2002$nao_branco[eseb2002$p189 != levels(eseb2002$p189)[3]] <- 1
+eseb2002$nao_branco[eseb2002$p189 == levels(eseb2002$p189)[3]] <- 0
+nao_branco <- eseb2002$nao_branco
+
+eseb2002$mulheres[eseb2002$p158 == levels(eseb2002$p158)[2]] <- 1
+eseb2002$mulheres[eseb2002$p158 != levels(eseb2002$p158)[2]] <- 0
+mulheres <- eseb2002$mulheres
+
+idade <- eseb2002$p157
+
+renda_familiar <- as.numeric(eseb2002$p176)
+
 escolaridade <- sample(rep(1:21,2514), 2514)
 conhecimento_politico <- sample(rep(0:10,2514), 2514)
 intervencao_governo <- sample(rep(0:10,2514), 2514)
