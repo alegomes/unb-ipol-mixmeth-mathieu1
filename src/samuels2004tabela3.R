@@ -230,7 +230,16 @@ intervencao_governo <-  as.numeric(eseb2002$p107a) +
                         as.numeric(eseb2002$p107m) +
                         as.numeric(eseb2002$p107n)
 
-regulamentacao_governo <- sample(rep(0:10,2514), 2514)
+# Os os itens pro regulacao foram somados e, os contrarios,
+# subtraidos para a formacao do indicador.
+regulamentacao_governo <- as.numeric(eseb2002$p108a) +
+                          as.numeric(eseb2002$p108b) -
+                          as.numeric(eseb2002$p108c) +
+                          as.numeric(eseb2002$p108d) +
+                          as.numeric(eseb2002$p108e) -
+                          as.numeric(eseb2002$p108f) +
+                          as.numeric(eseb2002$p108g) 
+
 nacionalismo_economico <- sample(rep(0:10,2514), 2514)
 apoio_clientelismo <- sample(rep(0:10,2514), 2514)
 apoio_roubamasfaz <- sample(rep(0:10,2514), 2514)
