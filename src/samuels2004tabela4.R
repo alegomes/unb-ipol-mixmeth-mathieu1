@@ -7,22 +7,19 @@
 
 library(pander)
 
-
-# (…) utilizaremos um procedimento que permite comparações fáceis do 
-# impacto relativo de cada variável. Isto significa usar o módulo do 
-# software CLARIFY para o pacote estatístico STATA 8.0 
-# (KING et al, 2000; TOMZ et al, 2003)7. O CLARIFY toma os coeficientes de
-# regressão em modelos logísticos e calcula a probabilidade predita de 
-# obter qualquer dos resultados na variável dependente dado um 
-# conjunto de parâmetros para as variáveis independentes. Assim, o 
-# modelo de regressão inicial, por exemplo, poderia predizer que a 
-# probabilidade de um brasileiro ser petista é .20, significando que o 
-# modelo prediz que um em cada cinco brasileiros é petista8.
+# (…) utilizaremos um procedimento que permite comparações fáceis do impacto
+# relativo de cada variável. Isto significa usar o módulo do software CLARIFY
+# para o pacote estatístico STATA 8.0 (KING et al, 2000; TOMZ et al, 2003)7. O
+# CLARIFY toma os coeficientes de regressão em modelos logísticos e calcula a
+# probabilidade predita de obter qualquer dos resultados na variável dependente
+# dado um conjunto de parâmetros para as variáveis independentes. Assim, o
+# modelo de regressão inicial, por exemplo, poderia predizer que a probabilidade
+# de um brasileiro ser petista é .20, significando que o modelo prediz que um em
+# cada cinco brasileiros é petista8.
 # 
-# O CLARIFY não pode ser rodado através do SPSS (e nem no R!!!). 
-# É claro que se pode computar probabilidades preditas à mão, mas 
-# o procedimento pode se tornar muito árduo. 
-# Ver King et al (2000) sobre o uso do CLARIFY .
+# O CLARIFY não pode ser rodado através do SPSS (e nem no R!!!). É claro que se
+# pode computar probabilidades preditas à mão, mas o procedimento pode se tornar
+# muito árduo. Ver King et al (2000) sobre o uso do CLARIFY .
 # https://gking.harvard.edu/files/clarify.pdf
 
 # Na Tabela 4 apresentamos as mudanças em probabilidades preditas para as
@@ -38,19 +35,45 @@ library(pander)
 # Os valores nas células podem, portanto, variar de -1.00 a +1.00, e podem ser
 # lidos como porcentagens.
 
-source('/Users/alegomes/GDrive/2018/unb/ipol/disc métodos mistos/provas/1. Mathieu/src/samuels2004.R')
+source('samuels2004.R')
+
+# Modelo a partir dos dados da pesquisa
+model <- logit()
+
+# Probabilidade de Y considerando todas os X's medios
+means <- test_probability_of_means(model)
+
+# Probabilidade de Y para cada X maximizado
+test_opiniao_sobre_lula <- test_probability_of_opiniao_sobre_lula(model)
+test_ideologia_esquerda_direita <- test_probability_of_ideologia_esquerda_direita(model)
+test_participacao_nao_eleitoral <- test_probability_of_participacao_nao_eleitoral(model) 
+test_escolaridade <- test_probability_of_escolaridade(model)
+test_conhecimento_politico <- test_probability_of_conhecimento_politico(model)
+test_avaliacao_governo_fhc <- test_probability_of_avaliacao_governo_fhc(model)
+test_eficacia_participacao <- test_probability_of_eficacia_participacao(model)
+test_participacao_eleitoral <- test_probability_of_participacao_eleitoral(model)
+
+tabela4 <- data.frame(Petismo=c(means, 
+                              test_opiniao_sobre_lula,
+                              test_ideologia_esquerda_direita,
+                              test_participacao_nao_eleitoral,
+                              test_escolaridade,
+                              test_conhecimento_politico,
+                              test_avaliacao_governo_fhc,
+                              test_eficacia_participacao,
+                              test_participacao_eleitoral), 
+                    row.names=c('Linha Base',
+                                'Opiniao sobre Lula',
+                                'Participacao esquerda-direita',
+                                'Participacao nao eleitoral',
+                                'Escolaridade',
+                                'Conhecimento politico',
+                                'Avaliacao retrospectiva',
+                                'Eficacia do voto',
+                                'Participacao eleitoral') )
 
 
-p <- probabilidade_predita(get_petistas() ~ get_opiniao_sobre_lula() + 
-                                       get_ideologia_esquerda_direita() +
-                                       get_participaca_nao_eleitoral() + 
-                                       get_escolaridade() +
-                                       get_conhecimento_politico() +
-                                       get_avaliacao_governo_fhc() +
-                                       get_eficacia_participaca() +
-                                       get_participaca_eleitoral())
-
-pandoc.table(p, 
+pandoc.table(tabela4, 
              style = 'grid', 
              # round = c(1:4), 
              digits = 3,
