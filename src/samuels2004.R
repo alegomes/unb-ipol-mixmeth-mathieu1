@@ -22,7 +22,7 @@ get_petistas <- function() {
   return(eseb2002$petistas)
 }
 
-get_categorias_emprego <- function() {
+get_categorias_emprego_ <- function() {
   # 162) Atualmente, qual é a situação profissional do(a) Sr(a): (ESTIMULADA E ÚNICA)
   # 164) Qual a sua ocupação, o que o(a) Sr(a) faz no trabalho? (ESPONTÂNEA E ÚNICA)
   
@@ -336,8 +336,8 @@ get_eficacia_participacao <- function() {
 }
 
 logit <- function() {
-  data <- data.frame(petistas=get_petistas(),
-                     categorias_emprego_=get_categorias_emprego(),
+  d <- data.frame(petistas=get_petistas(),
+                     categorias_emprego_=as.numeric(get_categorias_emprego_()),
                      avaliacao_governo_fhc=get_avaliacao_governo_fhc(),
                      opiniao_sobre_lula=get_opiniao_sobre_lula(),
                      ideologia_esquerda_direita=get_ideologia_esquerda_direita(),
@@ -382,7 +382,7 @@ logit <- function() {
                  participacao_eleitoral +
                  participacao_nao_eleitoral + 
                  eficacia_participacao
-               ,data=data             
+               ,data=d             
                ,family="binomial")
   
   return(logit)
@@ -397,7 +397,7 @@ get_means <- function() {
                     avaliacao_governo_fhc=mean(get_avaliacao_governo_fhc(), na.rm=TRUE),
                     eficacia_participacao=mean(get_eficacia_participacao(), na.rm=TRUE),
                     participacao_eleitoral=mean(get_participacao_eleitoral(), na.rm=TRUE),
-                    categorias_emprego_=factor(c(99)),
+                    categorias_emprego_=c(99), # Qual a media de um factor? :-/
                     religiao_catolico=mean(get_religiao_catolico(), na.rm=TRUE),
                     religiao_evangelico=mean(get_religiao_evangelico(), na.rm=TRUE),
                     nao_branco=mean(get_nao_branco(), na.rm=TRUE),
@@ -471,5 +471,38 @@ test_probability_of_participacao_eleitoral <- function(model) {
   return(test_probability(model,c(participacao_eleitoral=max(get_participacao_eleitoral(), na.rm=T))))
 }
 
+# variable = 'categorias_emprego_'
+# value=as.numeric(possible_values[1])
+get_mais_provaveis <- function() {
+  
+  mais_provaveis <- c()
+  data_means <- get_means()
+  
+  for(variable in colnames(data_means)) {
+    print(variable)
+    possible_values <- levels(factor(as.numeric(get(paste('get_',variable, sep=""))())))
+    probabilities_of_petismo <- c()
+    for(value in as.numeric(possible_values)) {
 
+      value_to_be_tested <- c(value) 
+      
+      
+      # Eh preciso que o vetor esteja com a coluna nomeada corretamente para que o test_probability saiba qual variavel testar
+      names(value_to_be_tested)[1] <- variable
+      # Probabilidade de petismo da variavel independente X no valor 'value'
+      probability <- c(test_probability(model,value_to_be_tested))
+      # Guarda a probabilidade com o valor de X correspondente
+      names(probability) <- value
+      # Guarda todas as probabilidades calculadas 
+      probabilities_of_petismo <- c(probabilities_of_petismo, probability)
+    }
+    # Guarda o valor de X que produziu a maior probabilidade de petismo 
+    max_probability <- c(as.numeric(names(which.max(probabilities_of_petismo))[1]))
+    names(max_probability)[1] <- variable
+    
+    mais_provaveis <- c(mais_provaveis, max_probability)
+  }
+  
+  return(t(data.frame(mais_provaveis)))
+}
 
