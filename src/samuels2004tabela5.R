@@ -23,4 +23,29 @@ library(pander)
 # uma determinada variável sobre a predição. A Tabela 5 apresenta vários
 # cenários. (Pg 235)
 
+means <- 0.138
+opiniao_media_ideologia_media_outras_maisprovavel <- 0.785
+opiniao_media_outras_maisprovavel <- 0.892
+ideologia_media_outras_maisprovavel <- 0.989
+todas_maisprovavel <- 0.996
 
+tabela5 <- data.frame(Petismo=c(means, 
+                                opiniao_media_ideologia_media_outras_maisprovavel,
+                                opiniao_media_outras_maisprovavel,
+                                ideologia_media_outras_maisprovavel,
+                                todas_maisprovavel), 
+                      row.names=c('Todas as variaveis em valor medio (linha base)',
+                                  'Opiniao sobre Lula e posicionamento esquerda-direita na media, todas as outruas variaveis no cenario maiis provavel',
+                                  'Opiniao sobre Lula na media e todas as outras no cenario mais provavel',
+                                  'Posicionamento esquerda-direita na media e todas as outras no cenario mais provavel',
+                                  'Todas variaveis no cenario mais provavel'))
+
+
+pandoc.table(tabela5, 
+             style = 'grid', 
+             # round = c(1:4), 
+             digits = 3,
+             split.table = Inf, 
+             caption = "TABELA 4. Samuels (2004)", 
+             plain.ascii = TRUE, 
+             justify = 'center')
